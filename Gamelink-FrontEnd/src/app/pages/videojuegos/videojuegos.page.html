@@ -1,0 +1,116 @@
+<ion-content>
+  <div class="header-container">
+    <h1 class="page-title">
+      <ion-icon name="game-controller-outline"></ion-icon>
+      Gamelink
+    </h1>
+
+    <div class="search-bar">
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="searchGames()"
+        (ionClear)="clearSearch()"
+        placeholder="Buscar videojuegos"
+        animated="true"
+        show-cancel-button="focus"
+        debounce="100"
+      ></ion-searchbar>
+
+      <ion-button fill="clear" (click)="showFilters = !showFilters" class="filter-button">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    @if (showFilters) {
+      <div class="filters-container">
+        <div class="filters-header">
+          <h2>Filtros</h2>
+          <ion-button fill="clear" (click)="showFilters = false" class="close-button">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </div>
+
+        <ion-list lines="none">
+          <ion-item>
+            <ion-label>Género</ion-label>
+            <ion-select [(ngModel)]="selectedTema" placeholder="Selecciona un género">
+              <ion-select-option value="">Todos</ion-select-option>
+              @for (tema of temas; track tema) {
+                <ion-select-option [value]="tema">{{ tema }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+        <div class="filter-buttons">
+          <ion-button class="clear-button" fill="outline" (click)="clearFilters()">
+            Limpiar
+          </ion-button>
+          <ion-button class="apply-button" (click)="applyFilters()">
+            Aplicar
+          </ion-button>
+        </div>
+      </div>
+    }
+  </div>
+
+  @for (videojuego of videojuegos; track videojuego._id) {
+    <div class="game-card">
+      <div class="game-image-container">
+        <img [src]="videojuego.imagen || 'assets/default-game.jpg'" class="game-image" [alt]="videojuego.nombre">
+        <div class="game-rating">
+          <ion-icon name="star"></ion-icon>
+          <span>{{ videojuego.rating.toFixed(1) }}</span>
+        </div>
+
+        <div class="game-actions">
+          <ion-button fill="clear" class="action-button favorite" (click)="toggleFavorite(videojuego, $event)">
+            <ion-icon [name]="isFavorite(videojuego._id) ? 'heart' : 'heart-outline'"></ion-icon>
+          </ion-button>
+
+
+          <!-- Botón de eliminar -->
+          @if (isGameOwner(videojuego)) {
+            <ion-button fill="clear" class="action-button delete" (click)="deleteGame(videojuego, $event)">
+              <ion-icon name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
+          }
+        </div>
+      </div>
+
+      <div class="game-info">
+        <h3 class="game-title">{{ videojuego.nombre }}</h3>
+        <div class="game-meta">
+          <span class="game-year">{{ videojuego.anio }}</span>
+          <span class="game-genre">{{ videojuego.tema }}</span>
+        </div>
+        <p class="game-description">{{ videojuego.descripcion | slice:0:100 }}{{ videojuego.descripcion.length > 100 ? '...' : '' }}</p>
+
+        <div class="game-user">
+          <span>Por: {{ getUserNick(videojuego) }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading && noResults) {
+    <div class="empty-state">
+      <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+      <h3>No se encontraron videojuegos</h3>
+      <p>Intenta con otros filtros de búsqueda</p>
+      <ion-button (click)="clearFilters(); clearSearch()">Limpiar filtros</ion-button>
+    </div>
+  }
+
+  @if (currentPage < totalPages) {
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingText="Cargando más videojuegos..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddGameModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

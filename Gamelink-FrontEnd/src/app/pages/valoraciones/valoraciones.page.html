@@ -1,0 +1,191 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-title>Valoraciones</ion-title>
+
+    @if (actionFromUrl) {
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/tabs/videojuegos"></ion-back-button>
+      </ion-buttons>
+    }
+
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleNewRatingForm()">
+        @if (showNewRatingForm) {
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        } @else {
+          <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+        }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if (showNewRatingForm) {
+    <div class="rating-form-container">
+      <div class="rating-form-header">
+        <h2>{{ userRating ? 'Actualizar valoración' : 'Nueva valoración' }}</h2>
+      </div>
+
+      <div class="rating-form">
+        @if (!selectedVideojuego) {
+          <ion-item>
+            <ion-label position="stacked">Videojuego</ion-label>
+            <ion-select [(ngModel)]="nuevaValoracion.videojuego_id"
+                        placeholder="Selecciona un videojuego"
+                        (ionChange)="videojuegoSelectionChange()">
+              @for (videojuego of videojuegos; track videojuego._id) {
+                <ion-select-option [value]="videojuego._id">
+                  {{ videojuego.nombre }}
+                </ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        } @else {
+          <div class="selected-game">
+            <h3>{{ getVideojuegoNombre(selectedVideojuego) }}</h3>
+          </div>
+        }
+
+        <!-- Selector de puntuación -->
+        <div class="rating-stars-container">
+          <ion-label>Puntuación</ion-label>
+          <div class="rating-stars">
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <ion-icon
+                [name]="i <= nuevaValoracion.puntuacion ? 'star' : 'star-outline'"
+                [class.selected]="i <= nuevaValoracion.puntuacion"
+                (click)="nuevaValoracion.puntuacion = i">
+              </ion-icon>
+            }
+          </div>
+        </div>
+
+        <!-- Campo de comentario -->
+        <ion-item>
+          <ion-label position="stacked">Comentario</ion-label>
+          <ion-textarea
+            [(ngModel)]="nuevaValoracion.comentario"
+            placeholder="Escribe tu opinión sobre este juego..."
+            [rows]="5"
+            maxlength="500">
+          </ion-textarea>
+        </ion-item>
+
+        <!-- Contador de caracteres -->
+        <div class="character-counter">
+          {{ nuevaValoracion.comentario.length || 0 }}/500
+        </div>
+
+        <!-- Botón de envío -->
+        <ion-button expand="block" (click)="submitValoracion()"
+                    [disabled]="!nuevaValoracion.videojuego_id || !nuevaValoracion.comentario">
+          {{ userRating ? 'Actualizar valoración' : 'Enviar valoración' }}
+        </ion-button>
+      </div>
+    </div>
+  }
+
+  <!-- Filtros de valoraciones -->
+  @if (!showNewRatingForm) {
+    <div class="filters-container">
+      <ion-item>
+        <ion-label>Filtrar por videojuego</ion-label>
+        <ion-select [(ngModel)]="selectedVideojuego"
+                    placeholder="Todos los videojuegos"
+                    (ionChange)="loadValoraciones()">
+          <ion-select-option [value]="null">Todos</ion-select-option>
+          @for (videojuego of videojuegos; track videojuego._id) {
+            <ion-select-option [value]="videojuego._id">
+              {{ videojuego.nombre }}
+            </ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+    </div>
+  }
+
+  <!-- Lista de valoraciones -->
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Cargando valoraciones...</p>
+    </div>
+  } @else if (noResults) {
+    <div class="empty-state">
+      <ion-icon name="chatbubble-outline" class="empty-icon"></ion-icon>
+      <h3>No hay valoraciones</h3>
+      <p>Sé el primero en valorar un videojuego</p>
+      @if (!showNewRatingForm) {
+        <ion-button expand="block" (click)="toggleNewRatingForm()">
+          Crear valoración
+        </ion-button>
+      }
+    </div>
+  } @else {
+    <div class="valoraciones-container">
+      @for (valoracion of valoraciones; track valoracion._id) {
+
+        <div class="valoracion-card">
+          <!-- Encabezado con usuario y puntuación -->
+          <div class="valoracion-header">
+            <!-- Información del usuario -->
+            <div class="user-info">
+              <ion-icon name="person-outline"></ion-icon>
+              <span>{{ getUserNick(valoracion) }}</span>
+            </div>
+
+            <!-- Estrellas de puntuación -->
+            <div class="valoracion-stars">
+              @for (i of [1, 2, 3, 4, 5]; track i) {
+                <ion-icon [name]="i <= valoracion.puntuacion ? 'star' : 'star-outline'"></ion-icon>
+              }
+            </div>
+          </div>
+
+          <!-- Información sobre el videojuego valorado -->
+          <div class="valoracion-game">
+            <strong>Videojuego:</strong> {{ getVideojuegoNombre(valoracion.videojuego_id) }}
+          </div>
+
+          <!-- Comentario de la valoración -->
+          <div class="valoracion-content">
+            <p>{{ valoracion.comentario }}</p>
+          </div>
+
+
+          <div class="valoracion-likes">
+            <ion-button fill="clear" color="medium" size="small" (click)="toggleLike(valoracion)">
+              <ion-icon [name]="valoracion.usuarioHaDadoLike ? 'heart' : 'heart-outline'"></ion-icon>
+              <span>{{ valoracion.likesCount || 0 }}</span>
+            </ion-button>
+          </div>
+          <hr class="divider">
+
+          @if (valoracion && canUserDeleteValoracion(valoracion)) {
+            <div class="valoracion-actions">
+              <!-- Botón de edición -->
+              <ion-button fill="clear" color="primary" (click)="editValoracion(valoracion)">
+                <ion-icon name="create-outline"></ion-icon> Editar
+              </ion-button>
+
+              <!-- Botón de eliminación -->
+              <ion-button fill="clear" color="danger" (click)="deleteValoracion(valoracion._id)">
+                <ion-icon name="trash-outline"></ion-icon> Eliminar
+              </ion-button>
+            </div>
+          }
+        </div>
+
+
+      }
+    </div>
+
+    <!-- Infinite Scroll para cargar más valoraciones -->
+    @if (currentPage < totalPages) {
+      <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content loadingText="Cargando más valoraciones..."></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    }
+  }
+</ion-content>

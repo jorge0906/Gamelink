@@ -1,0 +1,164 @@
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="background-overlay"></div>
+
+  <ion-header class="ion-no-border">
+    <ion-toolbar transparent>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/portada" text="" icon="arrow-back-outline"></ion-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="register-container">
+    <div class="header-section">
+      <h1>Crear Cuenta</h1>
+      <p>Únete a la comunidad gamer</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-input type="email" formControlName="correo" placeholder="Correo electrónico"></ion-input>
+        </ion-item>
+        <div class="error-message">
+          @if (submitted && registerForm.get('correo')?.errors?.['required']) {
+            <span>El correo es obligatorio</span>
+          }
+          @if (submitted && registerForm.get('correo')?.errors?.['email']) {
+            <span>Ingresa un correo válido</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="at-outline" slot="start"></ion-icon>
+          <ion-input type="text" formControlName="nick" placeholder="Nombre de usuario"></ion-input>
+        </ion-item>
+        <div class="error-message">
+          @if (submitted && registerForm.get('nick')?.errors?.['required']) {
+            <span>El nombre de usuario es obligatorio</span>
+          }
+          @if (submitted && registerForm.get('nick')?.errors?.['minlength']) {
+            <span>El nombre de usuario debe tener al menos 3 caracteres</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <ion-item class="custom-input">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input type="text" formControlName="nombre" placeholder="Nombre"></ion-input>
+          </ion-item>
+          <div class="error-message">
+            @if (submitted && registerForm.get('nombre')?.errors?.['required']) {
+              <span>El nombre es obligatorio</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group half-width">
+          <ion-item class="custom-input">
+            <ion-input type="text" formControlName="apellido" placeholder="Apellido"></ion-input>
+          </ion-item>
+          <div class="error-message">
+            @if (submitted && registerForm.get('apellido')?.errors?.['required']) {
+              <span>El apellido es obligatorio</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input type="password" formControlName="contraseña" placeholder="Contraseña"></ion-input>
+        </ion-item>
+        <div class="error-message">
+          @if (submitted && registerForm.get('contraseña')?.errors?.['required']) {
+            <span>La contraseña es obligatoria</span>
+          }
+          @if (submitted && registerForm.get('contraseña')?.errors?.['minlength']) {
+            <span>La contraseña debe tener al menos 6 caracteres</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input type="password" formControlName="confirmarContraseña" placeholder="Confirmar contraseña"></ion-input>
+        </ion-item>
+        <div class="error-message">
+          @if (submitted && registerForm.get('confirmarContraseña')?.errors?.['required']) {
+            <span>Confirma tu contraseña</span>
+          }
+          @if (submitted && registerForm.get('confirmarContraseña')?.errors?.['mustMatch']) {
+            <span>Las contraseñas no coinciden</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <ion-item class="custom-input">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-input type="number" formControlName="edad" placeholder="Edad"></ion-input>
+          </ion-item>
+          <div class="error-message">
+            @if (submitted && registerForm.get('edad')?.errors?.['required']) {
+              <span>La edad es obligatoria</span>
+            }
+            @if (submitted && registerForm.get('edad')?.errors?.['min']) {
+              <span>Debes ser mayor de 12 años</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group half-width">
+          <ion-item class="custom-input">
+            <ion-icon name="transgender-outline" slot="start"></ion-icon>
+            <ion-select formControlName="sexo" placeholder="Sexo" interface="popover">
+              <ion-select-option value="M">Masculino</ion-select-option>
+              <ion-select-option value="F">Femenino</ion-select-option>
+              <ion-select-option value="Otro">Otro</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="error-message">
+            @if (submitted && registerForm.get('sexo')?.errors?.['required']) {
+              <span>El sexo es obligatorio</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="text-outline" slot="start"></ion-icon>
+          <ion-textarea formControlName="descripcion" placeholder="Descripción (opcional)" rows="3"></ion-textarea>
+        </ion-item>
+      </div>
+
+      <div class="terms-privacy">
+        <ion-checkbox formControlName="aceptarTerminos"></ion-checkbox>
+        <span>Acepto los <a href="#">Términos de servicio</a> y la <a href="#">Política de privacidad</a></span>
+      </div>
+      <div class="error-message text-center">
+        @if (submitted && registerForm.get('aceptarTerminos')?.errors?.['required']) {
+          <span>Debes aceptar los términos y la política de privacidad</span>
+        }
+      </div>
+
+      <ion-button expand="block" type="submit" class="register-button">
+        Crear cuenta
+      </ion-button>
+    </form>
+
+    <div class="login-link">
+      <span>¿Ya tienes cuenta?</span>
+      <ion-text color="primary" routerLink="/iniciar-sesion">Inicia sesión</ion-text>
+    </div>
+  </div>
+</ion-content>

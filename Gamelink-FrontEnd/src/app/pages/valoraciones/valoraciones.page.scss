@@ -1,0 +1,282 @@
+
+.filters-container {
+  padding: 20px;
+  background: linear-gradient(135deg, #293c49 0%, #1a2530 100%);
+  border-radius: 12px;
+  margin: 16px;
+  color: white;
+}
+
+
+
+ion-header {
+  --background: linear-gradient(135deg, #293c49 0%, #1a2530 100%);
+
+  box-shadow: none;
+  }
+
+  ion-content {
+    --background: linear-gradient( #4295d6, #b2d0ef);
+    padding: 0;
+
+  }
+
+  ion-toolbar {
+    --background: linear-gradient(135deg, #293c49 0%, #1a2530 100%);
+
+    box-shadow: none;
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+  }
+
+
+  .rating-form-container {
+    background-color: white;
+    margin: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+.rating-form-header {
+  padding: 20px;
+  background-color: #4A90E2;
+  color: white;
+  border-radius: 12px;
+
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+.rating-form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+}
+
+.selected-game {
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 16px;
+  text-align: center;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+  }
+}
+
+.rating-stars-container {
+  margin: 16px 0;
+
+  ion-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4A5568;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+
+
+.rating-stars {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 30px;
+    color: #cbd5e0;
+    cursor: pointer;
+
+    &.selected {
+      color: #f6e05e;
+    }
+  }
+}
+
+.character-counter {
+  text-align: right;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #718096;
+}
+
+.valoraciones-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+}
+
+.valoracion-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.valoracion-card:hover {
+  transform: translateY(-5px);
+}
+
+.valoracion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+
+  ion-icon {
+    margin-right: 8px;
+    font-size: 22px;
+    color: #4A5568;
+  }
+
+  span {
+    font-weight: 500;
+    color: #2d3748;
+  }
+}
+
+.valoracion-stars {
+  display: flex;
+  gap: 4px;
+
+  ion-icon {
+    font-size: 18px;
+    color: #f6e05e;
+  }
+}
+
+.valoracion-game {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #4A5568;
+}
+
+.valoracion-content {
+  margin-bottom: 16px;
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2d3748;
+  }
+}
+
+.valoracion-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+}
+
+.valoracion-actions ion-button {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.valoracion-actions ion-button ion-icon {
+  font-size: 20px;
+}
+
+.valoracion-likes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.valoracion-likes ion-button {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.valoracion-likes ion-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.loading-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.loading-container {
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 0;
+    color: #718096;
+    font-size: 16px;
+  }
+}
+
+
+
+.empty-state {
+  .empty-icon {
+    font-size: 64px;
+    color: #cbd5e0;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2d3748;
+  }
+
+  p {
+    margin: 0 0 16px;
+    font-size: 14px;
+    color: #718096;
+  }
+
+  ion-button {
+    --background: #4A90E2;
+    --color: white;
+    --border-radius: 20px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --height: 45px;
+  }
+}
+
+
+.divider {
+  border: none;
+  height: 2px;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+

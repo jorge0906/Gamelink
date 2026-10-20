@@ -1,0 +1,70 @@
+.edit-profile-container {
+  padding: 16px;
+  background-color: var(--ion-color-light);
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--ion-color-primary);
+  text-align: center;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.error-container {
+  background-color: rgba(var(--ion-color-danger-rgb), 0.1);
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+
+  ion-icon {
+    color: var(--ion-color-danger);
+    font-size: 24px;
+    margin-right: 10px;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ion-color-danger);
+  }
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.8rem;
+  margin: -5px 0 10px 16px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+
+  ion-button {
+    flex: 1;
+  }
+}
+
+ion-item {
+  border: 1px solid #3d3838;
+  --background: var(--ion-color-light);
+  --border-color: var(--ion-color-medium);
+  margin: 5px;
+}
+
+ion-input, ion-select {
+  --padding-start: 10px;
+}

@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Videojuego</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+
+  <form [formGroup]="videojuegoForm" (ngSubmit)="onSubmit()">
+
+    <ion-item>
+      <ion-label position="floating">Nombre <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="text" formControlName="nombre"></ion-input>
+    </ion-item>
+    @if (nombreControl?.invalid && nombreControl?.touched) {
+      <div class="error-message">
+        @if (nombreControl?.errors?.['required']) {
+          <span>El nombre es obligatorio</span>
+        }
+        @if (nombreControl?.errors?.['minlength']) {
+          <span>El nombre debe tener al menos 3 caracteres</span>
+        }
+      </div>
+    }
+
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Género <ion-text color="danger">*</ion-text></ion-label>
+      </ion-list-header>
+
+      <ion-radio-group formControlName="tema">
+        @for (tema of temas; track tema) {
+          <ion-item>
+            <ion-label>{{ tema }}</ion-label>
+            <ion-radio [value]="tema" slot="start"></ion-radio>
+          </ion-item>
+        }
+      </ion-radio-group>
+    </ion-list>
+    @if (temaControl?.invalid && temaControl?.touched) {
+      <div class="error-message">
+        @if (temaControl?.errors?.['required']) {
+          <span>El género es obligatorio</span>
+        }
+      </div>
+    }
+
+
+    <ion-item>
+      <ion-label position="floating">Año <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="number" formControlName="anio"></ion-input>
+    </ion-item>
+    @if (anioControl?.invalid && anioControl?.touched) {
+      <div class="error-message">
+        @if (anioControl?.errors?.['required']) {
+          <span>El año es obligatorio</span>
+        }
+        @if (anioControl?.errors?.['min']) {
+          <span>El año debe ser mayor o igual a 1950</span>
+        }
+        @if (anioControl?.errors?.['max']) {
+          <span>El año no puede ser mayor a {{ currentYear + 5 }}</span>
+        }
+      </div>
+    }
+
+
+    <ion-item>
+      <ion-label position="floating">Edad mínima <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="number" formControlName="edad_minima"></ion-input>
+    </ion-item>
+    @if (edadMinimaControl?.invalid && edadMinimaControl?.touched) {
+      <div class="error-message">
+        @if (edadMinimaControl?.errors?.['required']) {
+          <span>La edad mínima es obligatoria</span>
+        }
+        @if (edadMinimaControl?.errors?.['min']) {
+          <span>La edad mínima no puede ser negativa</span>
+        }
+        @if (edadMinimaControl?.errors?.['max']) {
+          <span>La edad mínima no puede ser mayor a 18</span>
+        }
+      </div>
+    }
+
+
+    <ion-item>
+      <ion-label position="floating">Descripción <ion-text color="danger">*</ion-text></ion-label>
+      <ion-textarea rows="4" formControlName="descripcion"></ion-textarea>
+    </ion-item>
+    @if (descripcionControl?.invalid && descripcionControl?.touched) {
+      <div class="error-message">
+        @if (descripcionControl?.errors?.['required']) {
+          <span>La descripción es obligatoria</span>
+        }
+        @if (descripcionControl?.errors?.['minlength']) {
+          <span>La descripción debe tener al menos 10 caracteres</span>
+        }
+      </div>
+    }
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Plataformas</ion-label>
+      </ion-list-header>
+
+      <div formArrayName="plataformasArray">
+        @for (plataforma of plataformas; track plataforma; let i = $index) {
+          <ion-item>
+            <ion-label>{{ plataforma }}</ion-label>
+            <ion-checkbox [formControlName]="i" slot="start"></ion-checkbox>
+          </ion-item>
+        }
+      </div>
+    </ion-list>
+
+
+    <ion-list-header>
+      <ion-label>URL de imagen (opcional)</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-input type="text" formControlName="imagen" placeholder="https://ejemplo.com/imagen.jpg"></ion-input>
+    </ion-item>
+
+
+    <div class="form-buttons">
+      <ion-button type="button" fill="outline" (click)="cancel()">Cancelar</ion-button>
+      <ion-button type="submit" [disabled]="isSubmitting || videojuegoForm.invalid">
+        {{ isSubmitting ? 'Guardando...' : 'Guardar' }}
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

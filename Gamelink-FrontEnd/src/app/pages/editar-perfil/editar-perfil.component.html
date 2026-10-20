@@ -1,0 +1,76 @@
+<div class="edit-profile-container">
+  <h2>Editar perfil</h2>
+
+  @if (cargando) {
+    <div class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Guardando cambios...</p>
+    </div>
+  } @else {
+    <form [formGroup]="profileForm" (ngSubmit)="guardarCambios()">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input formControlName="nombre" type="text" placeholder="Tu nombre"></ion-input>
+        </ion-item>
+        @if (formErrors.nombre) {
+          <div class="error-message">{{ formErrors.nombre }}</div>
+        }
+
+        <ion-item>
+          <ion-label position="stacked">Apellido</ion-label>
+          <ion-input formControlName="apellido" type="text" placeholder="Tu apellido"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Nickname</ion-label>
+          <ion-input [value]="usuario.nick" disabled type="text"></ion-input>
+          <div class="input-note">El nickname no se puede modificar</div>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Edad</ion-label>
+          <ion-input formControlName="edad" type="number" placeholder="Tu edad"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Género</ion-label>
+          <ion-select formControlName="sexo" placeholder="Selecciona un género">
+            <ion-select-option value="M">Masculino</ion-select-option>
+            <ion-select-option value="F">Femenino</ion-select-option>
+            <ion-select-option value="O">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Descripción</ion-label>
+          <ion-textarea
+            formControlName="descripcion"
+            placeholder="Escribe una breve descripción sobre ti"
+            [rows]="4"
+            maxlength="500">
+          </ion-textarea>
+        </ion-item>
+        <div class="character-counter">
+          {{ profileForm.get('descripcion')?.value?.length || 0 }}/500
+        </div>
+      </ion-list>
+
+      @if (error) {
+        <div class="error-container">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <p>{{ error }}</p>
+        </div>
+      }
+
+      <div class="form-buttons">
+        <ion-button type="button" fill="outline" (click)="cancelar()">
+          Cancelar
+        </ion-button>
+        <ion-button type="submit" [disabled]="!profileForm.valid || cargando">
+          Guardar cambios
+        </ion-button>
+      </div>
+    </form>
+  }
+</div>

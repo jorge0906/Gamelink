@@ -1,0 +1,67 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="background-overlay"></div>
+
+  <ion-header class="ion-no-border">
+    <ion-toolbar transparent>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/portada" text="" icon="arrow-back-outline"></ion-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="login-container">
+    <div class="header-section">
+      <h1>Iniciar Sesión</h1>
+      <p>Bienvenido de nuevo, gamer</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-input type="email" formControlName="email" placeholder="Correo electrónico"></ion-input>
+        </ion-item>
+        <div class="error-message">
+          @if (submitted && loginForm.get('email')?.errors?.['required']) {
+            <span>El correo es obligatorio</span>
+          }
+          @if (submitted && loginForm.get('email')?.errors?.['email']) {
+            <span>Ingresa un correo válido</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <ion-item class="custom-input">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
+        </ion-item>
+        <div class="error-message">
+          @if (submitted && loginForm.get('password')?.errors?.['required']) {
+            <span>La contraseña es obligatoria</span>
+          }
+          @if (submitted && loginForm.get('password')?.errors?.['minlength']) {
+            <span>La contraseña debe tener al menos 6 caracteres</span>
+          }
+        </div>
+      </div>
+
+
+      <ion-button expand="block" type="submit" class="login-button">
+        Iniciar Sesión
+      </ion-button>
+    </form>
+
+    <div class="separator">
+      <div class="line"></div>
+      <div class="text">O</div>
+      <div class="line"></div>
+    </div>
+
+
+    <div class="register-link">
+      <span>¿No tienes cuenta?</span>
+      <ion-text color="primary" routerLink="/registrarse">Regístrate</ion-text>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,60 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+      <div class="title-container">
+        <ion-icon name="heart"></ion-icon>
+        <span>Mis Favoritos</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <ion-text>Cargando tus favoritos...</ion-text>
+    </div>
+  } @else if (favoritosConDatos.length > 0) {
+    <div class="favoritos-lista">
+      @for (favorito of favoritosConDatos; track favorito.id) {
+        <div class="favorito-item" attr.data-id="{{favorito.videojuego._id}}">
+          <div class="favorito-content">
+            <div class="favorito-info">
+              <h3 class="favorito-title">{{ favorito.videojuego.nombre }}</h3>
+              <div class="favorito-meta">
+                @if (favorito.videojuego.tema) {
+                  <span class="tema-badge">{{ favorito.videojuego.tema }}</span>
+                }
+                @if (favorito.videojuego.anio) {
+                  <span class="year-badge">{{ favorito.videojuego.anio }}</span>
+                }
+                @if (favorito.videojuego.rating) {
+                  <span class="rating">
+                    <ion-icon name="star"></ion-icon>
+                    {{ favorito.videojuego.rating.toFixed(1) }}
+                  </span>
+                }
+              </div>
+            </div>
+            <ion-button fill="clear" class="favorito-button" (click)="eliminarFavorito(favorito.videojuego._id); $event.stopPropagation()">
+              <ion-icon name="heart"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <div class="empty-illustration">
+        <ion-icon name="heart-outline"></ion-icon>
+      </div>
+      <h3>Aún no tienes favoritos</h3>
+      <p>Añade videojuegos a tus favoritos para tenerlos siempre a mano</p>
+      <ion-button expand="block" routerLink="/tabs/videojuegos" class="explore-button">
+        <ion-icon name="game-controller-outline" slot="start"></ion-icon>
+        Explorar videojuegos
+      </ion-button>
+    </div>
+  }
+</ion-content>

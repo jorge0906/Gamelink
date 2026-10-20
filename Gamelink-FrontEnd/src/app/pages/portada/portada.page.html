@@ -1,0 +1,35 @@
+<ion-content [fullscreen]="true" class="portada-content">
+  <div class="background-overlay"></div>
+
+  <div class="portada-container">
+    <div class="logo-section">
+      <img src="assets/GamelinkPortada.png" alt="GameLink Logo" class="logo-image">
+      <p class="tagline">Conecta con tu comunidad gamer</p>
+    </div>
+
+    <div class="features-section">
+      <div class="feature-item">
+        <ion-icon name="star"></ion-icon>
+        <p>Descubre nuevos videojuegos</p>
+      </div>
+      <div class="feature-item">
+        <ion-icon name="star"></ion-icon>
+        <p>Valora tus juegos favoritos</p>
+      </div>
+      <div class="feature-item">
+        <ion-icon name="star"></ion-icon>
+        <p>Conecta con otros gamers</p>
+      </div>
+    </div>
+
+    <div class="buttons-section">
+      <ion-button expand="block" [routerLink]="['/iniciar-sesion']" class="login-button">
+        Iniciar Sesión
+      </ion-button>
+      <ion-button expand="block" [routerLink]="['/registrarse']" fill="outline" class="register-button">
+        Registrarse
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>
